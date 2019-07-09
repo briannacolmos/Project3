@@ -1,67 +1,13 @@
-
+// INTERACTIVE FORM
 
 // Focus the input on the first text box 
 $(document).ready(function(){
     $("#name").focus();
-// a span to append an id labeled total cost 
-$('.activities').append("<span id='totalCost'> </span>");
 
-//
-$('.activities').on('change', function() {
-    let totalSum = 0;
-    let activities = $('.activities input[type=checkbox]');
-
-    for(let i = 0; i < activities.length; i++) {
-    let activity = activities[i];
-    let activityText = activity.parentElement.innerText;
-    let dollarValue = parseInt(activityText.slice(activityText.indexOf('$') + 1));
-
-    if ($('input[name=' + activity.name + ']').prop('checked')) {
-        totalSum += dollarValue; 
-    }
-}
-});
-    // variables for the clickedBox function
-    var jsf = $("input[name='js-frameworks']")
-    var express = $("input[name='express']")
-    var jsl = $("input[name='js-libs']")
-    var node0 = $("input[name='node']")
-    var btools = $("input[name='build-tools']")
-    var npm = $("input[name='npm']")
-    var all = $("input[name='all']")
-     
-    // clickedBox function watches the state of the activities selected
-    function clickedBox() {
-    $total = 0
-    if (jsf.is(':checked')) {
-    express.prop('disabled', true); //If j s-frameworks is selected it to disable the express option
-    } else { // do not disable express if js-frameworks wasnt selected
-    express.prop('disabled', false);
-    }
-    if (express.is(':checked')) {
-    jsf.prop('disabled', true) //If express is selected to disable the js-frameworks option
-    } else { // else do not disable js-frameworks if express wasnt selected
-    jsf.prop('disabled', false);
-    }
-    if (jsl.is(':checked')) {
-    node0.prop('disabled', true); //If js-libs is selected disable the node option
-    } else { // else do not disable node if js-libs wasnt selected
-    node0.prop('disabled', false);
-    }
-    if (node0.is(':checked')) {
-    jsl.prop('disabled', true) //If node is selected disable the js-libs option
-    } else { // else do not disable js-libs if node wasnt selected
-    jsl.prop('disabled', false);
-    }
-    };
-    // listens when each item is clicked
-    jsf.add(express).add(jsl).add(node0).add(btools).add(npm).add(all).on('click', clickedBox);
-   
-    $('.totalDiv').addClass('is-hidden');
-
+    
 //JOB ROLE
 //hide the other text box when page loads
-    $("#other-title").hide();
+$("#other-title").hide();
 //if other option is chosen then load text box
     $("#title").on('change', (e) => {
                 if ($(e.target).val() == 'other') {
@@ -70,7 +16,6 @@ $('.activities').on('change', function() {
                     $("#other-title").hide();
                 }
     });
-
 // TShirt
 //hide color option when it is on default
 $("#color-js-puns").hide();
@@ -97,6 +42,63 @@ if($('#design').val() == "heart js"){
     }
 }
 );
+    // variables for the clickedBox function
+    var jsf = $("input[name='js-frameworks']")
+    var express = $("input[name='express']")
+    var jsl = $("input[name='js-libs']")
+    var node0 = $("input[name='node']")
+    var btools = $("input[name='build-tools']")
+    var npm = $("input[name='npm']")
+    var all = $("input[name='all']")
+     
+    // clickedBox function watches the state of the activities selected
+    
+    function clickedBox() {
+    $total = 0
+    if (jsf.is(':checked')) {
+        $total += 100 //Add 100 when checked
+    express.prop('disabled', true); //If j s-frameworks is selected it to disable the express option
+    } else { // do not disable express if js-frameworks wasnt selected
+    express.prop('disabled', false);
+    }
+    if (express.is(':checked')) {
+        $total += 100  //Add 100 when checked
+    jsf.prop('disabled', true) //If express is selected to disable the js-frameworks option
+    } else { // else do not disable js-frameworks if express wasnt selected
+    jsf.prop('disabled', false);
+    }
+    if (jsl.is(':checked')) {
+        $total +=  100 //Add 100 when checked
+    node0.prop('disabled', true); //If js-libs is selected disable the node option
+    } else { // else do not disable node if js-libs wasnt selected
+    node0.prop('disabled', false);
+    }
+    if (node0.is(':checked')) {
+        $total += 100  //Add 100 when checked
+    jsl.prop('disabled', true) //If node is selected disable the js-libs option
+    } else { // else do not disable js-libs if node wasnt selected
+    jsl.prop('disabled', false);
+    }
+    if (btools.is(':checked')) {  //If build-tools is selected add $100 to total
+        $total += 100  //Add 100 when checked
+    }
+    if (npm.is(':checked')) {  //If npm is selected add $100 to total
+        $total += 100  //Add 100 when checked
+    }
+    if (all.is(':checked')) {  //If main conference is selected add $200 to total
+        $total += 200 //Add 200 when checked
+    }
+        $('.totalDiv').removeClass('is-hidden');  // hides total amount 
+        $('.total-display').html('Total: $' + parseInt($total)); // shows total amount of items selected
+        };
+         // listens when each item is clicked
+    jsf.add(express).add(jsl).add(node0).add(btools).add(npm).add(all).on('click', clickedBox);
+   
+    $('.activities').append('<div class="totalDiv"><label name="total-amount" class="total-display">Total: </label></div>');
+    $('.totalDiv').addClass('is-hidden'); 
+    
+
+
 
 // hides all the options before a selection
 $(".credit-card").hide();
@@ -129,138 +131,106 @@ $("p:last").hide() // if it was not selected hide it
 })
 });
 
-//validation function for all inputs
-//NAME
-function validName() {
-   //Regex that allows letters a-z & puncuations & 0-31
-    const nameRegex = /^[a-z][a-z '-.,']{0-31}$|^$/i;
-    if(nameRegex.test($('#name').val()) ) {
-        $('#name').css('border-color', 'red');
-        $('label[for="name"]').css('color', 'red');
-        return false;
-    }
-    else {
-         $('#name').css('border-color', '#b0d3e2');
-        $('label[for="name"]').css('color', 'black');
-        return true;
-    }
-}
-$('#name').on('input', event => validName(event.target.value));
-$('#name').on('focusOut', event => validName(event.target.value));
-
-$('form').on('submit', function(event){
-    event.preventDefault();
-    if(validName() === true) {
-        //console.log(true)
-        return true;
+// Name validation
+const validName = () => {
+    let $nameInput = $('#name');
+    let validName = $nameInput.val();
+    if(validName) {
+    $nameInput.removeClass('invalid').addClass('valid');
+   return true;
     } else {
-        //console.log(false)
-        return false;
+    $nameInput.removeClass('valid').addClass('invalid');
+    $nameInput.after("<span class = 'err_msg' style='color:red'>Enter a valid name</span>");
+    return false;
     }
-})
+    }
 
-//EMAIL
-function validEmail() {
-    const nameRegex = /^[a-z][a-z '-.,']{0-31}$|^$/i;
-    if(nameRegex.test($('#mail').val()) ) {
-        $('#mail').css('border-color', 'red');
-        $('label[for="mail"]').css('color', 'red');
-        return false;
-    }
-    else {
-        $('#mail').css('border-color', '#b0d3e2');
-        $('label[for="mail"]').css('color', 'black');
-        return true;
-    }
-}
-$('#mail').on('input', event => validEmail(event.target.value));
-$('#mail').on('focusOut', event => validEmail(event.target.value));
-
-$('form').on('submit', function(event){
-    event.preventDefault();
-    if(validEmail() === true) {
-        //console.log(true)
-        return true
+    const validEmail = () => {
+    let $emailInput = $('#mail');
+    let regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; // valid email
+    let validEmail = regex.test($emailInput.val());
+    if (validEmail) {
+    $emailInput.removeClass('invalid').addClass('valid');
+    return true;
+    } else if ($emailInput.val() !== '') { 
+    $emailInput.removeClass('valid').addClass('invalid'); // Must be a valid email address
+    $emailInput.prev().text('Enter valid email').css('color', 'red');
+    return false;
     } else {
-        //console.log(false)
-        return false
+    $emailInput.removeClass('valid').addClass('invalid');
+    $emailInput.after("<span class = 'err_msg' style='color:red'>Enter a valid email</span>"); // error message
+
+    return false;
     }
-}) 
-//CREDIT CARD
-function validCard() {
-    const nameRegex = /^[a-z][a-z '-.,']{0-31}$|^$/i;
-    if(nameRegex.test($('#cc-num').val()) ) {
-        $('#cc-num').css('border-color', 'red');
-        $('label[for="user_cc-num"]').css('color', 'red');
-        return false;
     }
-    else {
-        $('#cc-num').css('border-color', '#b0d3e2');
-        $('label[for="cc-num"]').css('color', 'black');
-        return true;
-    }
-}
-$('#cc-num').on('input', event => validCard(event.target.value));
-$('#cc-num').on('focusOut', event => validCard(event.target.value));
-$('form').on('submit', function(event){
-    event.preventDefault();
-    if(validCard() === true) {
-        //console.log(true)
-        return true;
+    const validCreditCard = () => {
+    let $ccNumber = $('#cc-num');
+    let regex = /^\d{13,16}$/; //13 to 16 digits for cc number
+    let validCc = regex.test($ccNumber.val());
+    if (validCc) {
+    $ccNumber.removeClass('invalid').addClass('valid');
+    $ccNumber.prev().text('Card Number:').css('color', 'black');
+    return true;
     } else {
-        //console.log(false)
-        return false;
-    }
-}) 
+    $ccNumber.removeClass('valid').addClass('invalid');
+    $ccNumber.after("<span class = 'err_msg' style='color:red'>Enter a valid credit card</span>"); // error message
 
-//ZIP CODE
-function validZip() {
-    const nameRegex = /^[a-z][a-z '-.,']{0-31}$|^$/i;
-    if(nameRegex.test($('#zip').val()) ) {
-        $('#zip').css('border-color', 'red');
-        $('label[for="user_zip"]').css('color', 'red');
-        return false;
+    return false;
     }
-    else {
-        $('#zip').css('border-color', '#b0d3e2');
-        $('label[for="user_zip"]').css('color', 'black');
-        return true;
     }
-}
-$('#zip').on('input', event => validZip(event.target.value));
-$('#zip').on('focusOut', event => validZip(event.target.value));
-
-$('form').on('submit', function(event){
-    event.preventDefault();
-    if(validZip() === true) {
-        return true;
+    const validZipCode = () => {
+    let $zipCode = $('#zip')
+    let regex = /\d{5}/; //5 digits for zip code
+    let validZip = regex.test($zipCode.val());
+    if (validZip) {
+    $zipCode.removeClass('invalid').addClass('valid');
+    $zipCode.prev().text('Zip Code:').css('color', 'black');
+    return true;
     } else {
-        return false;
-    }
-}) 
+    $zipCode.removeClass('valid').addClass('invalid');
+    $zipCode.after("<span class = 'err_msg' style='color:red'>Enter a valid name</span>"); // error messsage
 
-//CVV
-function validCvv() {
-    const nameRegex = /^[a-z][a-z '-.,']{0-31}$|^$/i;
-    if(nameRegex.test($('#cvv').val()) ) {
-        $('#cvv').css('border-color', 'red');
-        $('label[for="user_cvv"]').css('color', 'red');
-        return false;
+    return false;
     }
-    else {
-        $('#cvv').css('border-color', '#b0d3e2');
-        $('label[for="user_cvv"]').css('color', 'black');
-        return true;
     }
-}
-$('#cvv').on('input', event => validCvv(event.target.value));
-$('#cvv').on('focusOut', event => validCvv(event.target.value));
-$('form').on('submit', function(event){
-    event.preventDefault();
-    if(validCvv() === true) {
-        return true;
+    const validCvv = () => {
+    let $cvv = $('#cvv');
+    let regex = /\d{3}/;
+    let validCvv = regex.test($cvv.val());
+    //3 digits for cvv
+    if (validCvv) {
+    $cvv.removeClass('invalid').addClass('valid');
+    $cvv.prev().text('CVV:').css('color', 'black');
+    return true;
     } else {
-        return false;
-    }
-});
+    $cvv.removeClass('valid').addClass('invalid');
+    $cvv.after("<span class = 'err_msg' style='color:red'>Enter a valid name</span>"); // error message
 
+    return false;
+    }
+    }
+    //making sure an activity is checked
+    const validActivities = () => {
+    let $activityInput = $('.activities input:checked');
+    let $activityLegend = $('.activities legend');
+    if ($activityInput.length > 0) {
+    $activityLegend.text('Register for Activities:').css('color', 'black');
+    return true;
+    } else {
+    $activityLegend.text('Please Select an Activity').css('color', 'red');
+    return false;
+    }
+    }
+    //making the form submit and validate all the variables above
+    $('form').on('submit', function(e){
+        $('.err_msg').remove();
+    if ($('#payment').val() === 'credit card') {
+    if(validName() & validEmail() & validActivities() & validCreditCard() & validCvv() & validZipCode()) {
+    alert('Successfully Registered!'); 
+    return true;
+    } else {
+    e.preventDefault();
+    alert('Fill out required fields');
+    }
+    }
+    });
